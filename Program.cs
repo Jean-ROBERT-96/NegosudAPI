@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using MySql.EntityFrameworkCore.Extensions;
+using NegosudAPI.Data;
+
 namespace NegosudAPI
 {
     public class Program
@@ -9,6 +14,7 @@ namespace NegosudAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<DataContext>(opt => opt.UseMySQL(builder.Configuration.GetConnectionString("DBConnexion")));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -30,6 +36,15 @@ namespace NegosudAPI
             app.MapControllers();
 
             app.Run();
+        }
+    }
+
+    public class MysqlEntityFrameworkDesignTimeServices : IDesignTimeServices
+    {
+        public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddEntityFrameworkMySQL();
+            new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection).TryAddCoreServices();
         }
     }
 }
