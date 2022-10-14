@@ -1,9 +1,11 @@
-﻿using NegosudAPI.Models.ArticleFolder;
+﻿using Microsoft.EntityFrameworkCore;
+using NegosudAPI.Models.ArticleFolder;
 using NegosudAPI.Models.EntityFolder;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NegosudAPI.Models.RelationFolder
 {
+    [Keyless]
     [Table("Manage")]
     public class Manage
     {
