@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NegosudAPI.Data;
 using NegosudAPI.Models.OrderFolder;
 
 namespace NegosudAPI.Controllers
@@ -8,6 +9,13 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class PurchaseOrderController : ControllerBase
     {
+        IPurchaseOrderRepository _repository;
+
+        public PurchaseOrderController(IPurchaseOrderRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<PurchaseOrder>>> Get()
         {

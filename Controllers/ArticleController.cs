@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NegosudAPI.Data;
 using NegosudAPI.Models.ArticleFolder;
 
 namespace NegosudAPI.Controllers
@@ -8,6 +9,13 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
+        IArticleRepository _repository;
+
+        public ArticleController(IArticleRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<Article>>> Get()
         {

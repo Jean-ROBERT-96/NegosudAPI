@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NegosudAPI.Data;
 using NegosudAPI.Models.EntityFolder;
 
 namespace NegosudAPI.Controllers
@@ -8,8 +9,15 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        IUserRepository _repository;
+
+        public UserController(IUserRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
-        public async Task<ActionResult<List<User>>> Get(string search)
+        public async Task<ActionResult<User>> Get(string search)
         {
             return Ok();
         }

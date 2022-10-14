@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NegosudAPI.Data;
 using NegosudAPI.Models.EntityFolder;
 
 namespace NegosudAPI.Controllers
@@ -8,6 +9,13 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
+        IClientRepository _repository;
+
+        public ClientController(IClientRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<Client>>> Get()
         {
