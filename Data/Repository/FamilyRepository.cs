@@ -1,4 +1,5 @@
-﻿using NegosudAPI.Models.ArticleFolder;
+﻿using Microsoft.EntityFrameworkCore;
+using NegosudAPI.Models.ArticleFolder;
 
 namespace NegosudAPI.Data.Repository
 {
@@ -11,19 +12,52 @@ namespace NegosudAPI.Data.Repository
             _context = context;
         }
 
-        public List<Family> GetAllFamilies()
+        public async Task<List<Family>> GetAllFamilies()
         {
-            return _context.families.ToList();
+            return await _context.families.ToListAsync();
         }
 
-        public List<Family> GetFamily(string type)
+        public async Task<List<Family?>> GetFamily(string name)
         {
-            return _context.families.Where(a => a.Type.Contains(type, StringComparison.OrdinalIgnoreCase)).ToList();
+            return await _context.families.Where(a => a.Type.Contains(name, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public Family GetFamilyById(int id)
+        public async Task<Family?> GetFamilyById(int id)
         {
-            return _context.families.FirstOrDefault(i => i.Id == id);
+            return await _context.families.FindAsync(id);
+        }
+
+        public async Task<Family> PostFamily(Family family)
+        {
+            _context.families.Add(family);
+            await _context.SaveChangesAsync();
+            return family;
+        }
+
+        public async Task<Family?> PutFamily(int id, Family family)
+        {
+            if (family.Id != null)
+                return null;
+
+            if (await _context.families.FindAsync(id) == null)
+                return null;
+
+            _context.Entry(family).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return family;
+        }
+
+        public async Task<Family?> DeleteFamily(int id)
+        {
+            var result = await _context.families.FindAsync(id);
+            if (result == null)
+                return null;
+
+            _context.families.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
         }
     }
 }

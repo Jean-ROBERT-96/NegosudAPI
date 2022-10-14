@@ -19,7 +19,7 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<User>> Get(string search)
         {
-            return Ok();
+            return Ok(await _repository.GetUser(search));
         }
     }
 }

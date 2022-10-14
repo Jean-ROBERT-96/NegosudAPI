@@ -1,4 +1,4 @@
-﻿using NegosudAPI.Models.ArticleFolder;
+﻿using Microsoft.EntityFrameworkCore;
 using NegosudAPI.Models.EntityFolder;
 
 namespace NegosudAPI.Data.Repository
@@ -12,19 +12,52 @@ namespace NegosudAPI.Data.Repository
             _context = context;
         }
 
-        public List<Client> GetAllClient()
+        public async Task<List<Client>> GetAllClient()
         {
-            return _context.clients.ToList();
+            return await _context.clients.ToListAsync();
         }
 
-        public List<Client> GetClient(string name)
+        public async Task<List<Client?>> GetClient(string name)
         {
-            return _context.clients.Where(a => a.FistName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+            return await _context.clients.Where(a => a.FistName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public Client GetClientById(int id)
+        public async Task<Client?> GetClientById(int id)
         {
-            return _context.clients.FirstOrDefault(i => i.Id == id);
+            return await _context.clients.FindAsync(id);
+        }
+
+        public async Task<Client> PostClient(Client client)
+        {
+            _context.clients.Add(client);
+            await _context.SaveChangesAsync();
+            return client;
+        }
+
+        public async Task<Client?> PutClient(int id, Client client)
+        {
+            if (client.Id != null)
+                return null;
+
+            if (await _context.clients.FindAsync(id) == null)
+                return null;
+
+            _context.Entry(client).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return client;
+        }
+
+        public async Task<Client?> DeleteClient(int id)
+        {
+            var result = await _context.clients.FindAsync(id);
+            if (result == null)
+                return null;
+
+            _context.clients.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
         }
     }
 }

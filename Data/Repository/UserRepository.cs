@@ -1,4 +1,6 @@
-﻿using NegosudAPI.Models.EntityFolder;
+﻿using Microsoft.EntityFrameworkCore;
+using NegosudAPI.Models.ArticleFolder;
+using NegosudAPI.Models.EntityFolder;
 
 namespace NegosudAPI.Data.Repository
 {
@@ -11,9 +13,9 @@ namespace NegosudAPI.Data.Repository
             _context = context;
         }
 
-        public User GetUser(string mail)
+        public async Task<User?> GetUser(string mail)
         {
-            return _context.users.FirstOrDefault(a => a.Mail == mail);
+            return await _context.users.FirstOrDefaultAsync(a => a.Mail == mail);
         }
     }
 }

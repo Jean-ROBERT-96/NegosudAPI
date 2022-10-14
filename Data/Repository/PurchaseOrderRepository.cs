@@ -1,4 +1,6 @@
-﻿using NegosudAPI.Models.OrderFolder;
+﻿using Microsoft.EntityFrameworkCore;
+using NegosudAPI.Models.ArticleFolder;
+using NegosudAPI.Models.OrderFolder;
 
 namespace NegosudAPI.Data.Repository
 {
@@ -11,14 +13,21 @@ namespace NegosudAPI.Data.Repository
             _context = context;
         }
 
-        public List<PurchaseOrder> GetAllPurchaseOrder()
+        public async Task<List<PurchaseOrder>> GetAllPurchaseOrder()
         {
-            return _context.purchaseOrders.ToList();
+            return await _context.purchaseOrders.ToListAsync();
         }
 
-        public PurchaseOrder GetPurchaseOrderById(int id)
+        public async Task<PurchaseOrder?> GetPurchaseOrderById(int id)
         {
-            return _context.purchaseOrders.FirstOrDefault(i => i.Id == id);
+            return await _context.purchaseOrders.FindAsync(id);
+        }
+
+        public async Task<PurchaseOrder> PostPurchaseOrder(PurchaseOrder purchaseOrder)
+        {
+            _context.purchaseOrders.Add(purchaseOrder);
+            await _context.SaveChangesAsync();
+            return purchaseOrder;
         }
     }
 }

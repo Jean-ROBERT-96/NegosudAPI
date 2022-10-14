@@ -1,4 +1,5 @@
-﻿using NegosudAPI.Models.EntityFolder;
+﻿using Microsoft.EntityFrameworkCore;
+using NegosudAPI.Models.EntityFolder;
 
 namespace NegosudAPI.Data.Repository
 {
@@ -11,19 +12,52 @@ namespace NegosudAPI.Data.Repository
             _context = context;
         }
 
-        public List<Vendor> GetAllVendor()
+        public async Task<List<Vendor>> GetAllVendor()
         {
-            return _context.vendor.ToList();
+            return await _context.vendor.ToListAsync();
         }
 
-        public List<Vendor> GetVendor(string name)
+        public async Task<List<Vendor?>> GetVendor(string name)
         {
-            return _context.vendor.Where(a => a.CompagnyName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+            return await _context.vendor.Where(a => a.CompagnyName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public Vendor GetVendorById(int id)
+        public async Task<Vendor?> GetVendorById(int id)
         {
-            return _context.vendor.FirstOrDefault(i => i.Id == id);
+            return await _context.vendor.FindAsync(id);
+        }
+
+        public async Task<Vendor> PostVendor(Vendor vendor)
+        {
+            _context.vendor.Add(vendor);
+            await _context.SaveChangesAsync();
+            return vendor;
+        }
+
+        public async Task<Vendor?> PutVendor(int id, Vendor vendor)
+        {
+            if (vendor.Id != null)
+                return null;
+
+            if (await _context.vendor.FindAsync(id) == null)
+                return null;
+
+            _context.Entry(vendor).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return vendor;
+        }
+
+        public async Task<Vendor?> DeleteVendor(int id)
+        {
+            var result = await _context.vendor.FindAsync(id);
+            if (result == null)
+                return null;
+
+            _context.vendor.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
         }
     }
 }

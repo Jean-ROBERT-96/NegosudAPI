@@ -19,7 +19,7 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<PurchaseOrder>>> Get()
         {
-            return Ok();
+            return Ok(await _repository.GetAllPurchaseOrder());
         }
 
         [HttpGet("{search}")]
@@ -28,14 +28,20 @@ namespace NegosudAPI.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post(PurchaseOrder article)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<PurchaseOrder>>> Get(int id)
         {
-            return Ok();
+            return Ok(await _repository.GetPurchaseOrderById(id));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<PurchaseOrder>> Post(PurchaseOrder purchaseOrder)
+        {
+            return Ok(await _repository.PostPurchaseOrder(purchaseOrder));
         }
 
         [HttpPut]
-        public async Task<ActionResult<PurchaseOrder>> Put(int id, PurchaseOrder article)
+        public async Task<ActionResult<PurchaseOrder>> Put(int id, PurchaseOrder purchaseOrder)
         {
             return Ok();
         }

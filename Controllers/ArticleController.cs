@@ -19,31 +19,37 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Article>>> Get()
         {
-            return Ok();
+            return Ok(await _repository.GetAllArticles());
         }
 
         [HttpGet("{search}")]
         public async Task<ActionResult<List<Article>>> Get(string search)
         {
-            return Ok();
+            return Ok(await _repository.GetArticle(search));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Article>> Get(int id)
+        {
+            return Ok(await _repository.GetArticleById(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Article>> Post(Article article)
         {
-            return Ok();
+            return CreatedAtAction("Post", await _repository.PostArticle(article));
         }
 
         [HttpPut]
         public async Task<ActionResult<Article>> Put(int id, Article article)
         {
-            return Ok();
+            return Ok(await _repository.PutArticle(id, article));
         }
 
         [HttpDelete]
         public async Task<ActionResult<Article>> Delete(int id)
         {
-            return Ok();
+            return Ok(await _repository.DeleteArticle(id));
         }
     }
 }

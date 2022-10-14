@@ -1,4 +1,5 @@
-﻿using NegosudAPI.Models.ArticleFolder;
+﻿using Microsoft.EntityFrameworkCore;
+using NegosudAPI.Models.ArticleFolder;
 
 namespace NegosudAPI.Data.Repository
 {
@@ -11,19 +12,52 @@ namespace NegosudAPI.Data.Repository
             _context = context;
         }
 
-        public List<Article> GetAllArticles()
+        public async Task<List<Article>> GetAllArticles()
         {
-            return _context.articles.ToList();
+            return await _context.articles.ToListAsync();
         }
 
-        public List<Article> GetArticle(string name)
+        public async Task<List<Article?>> GetArticle(string name)
         {
-            return _context.articles.Where(a => a.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+            return await _context.articles.Where(a => a.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public Article GetArticleById(int id)
+        public async Task<Article?> GetArticleById(int id)
         {
-            return _context.articles.FirstOrDefault(i => i.Id == id);
+            return await _context.articles.FindAsync(id);
+        }
+
+        public async Task<Article> PostArticle(Article article)
+        {
+            _context.articles.Add(article);
+            await _context.SaveChangesAsync();
+            return article;
+        }
+
+        public async Task<Article?> PutArticle(int id, Article article)
+        {
+            if (article.Id != null)
+                return null;
+
+            if(await _context.articles.FindAsync(id) == null)
+                return null;
+
+            _context.Entry(article).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return article;
+        }
+
+        public async Task<Article?> DeleteArticle(int id)
+        {
+            var result = await _context.articles.FindAsync(id);
+            if (result == null)
+                return null;
+
+            _context.articles.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
         }
     }
 }

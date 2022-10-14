@@ -19,31 +19,37 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Family>>> Get()
         {
-            return Ok();
+            return Ok(await _repository.GetAllFamilies());
         }
 
         [HttpGet("{search}")]
         public async Task<ActionResult<List<Family>>> Get(string search)
         {
-            return Ok();
+            return Ok(await _repository.GetFamily(search));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Family>> Get(int id)
+        {
+            return Ok(await _repository.GetFamilyById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Family>> Post(Family article)
+        public async Task<ActionResult<Family>> Post(Family family)
         {
-            return Ok();
+            return Ok(await _repository.PostFamily(family));
         }
 
         [HttpPut]
-        public async Task<ActionResult<Family>> Put(int id, Family article)
+        public async Task<ActionResult<Family>> Put(int id, Family family)
         {
-            return Ok();
+            return Ok(await _repository.PutFamily(id, family));
         }
 
         [HttpDelete]
         public async Task<ActionResult<Family>> Delete(int id)
         {
-            return Ok();
+            return Ok(await _repository.DeleteFamily(id));
         }
     }
 }
