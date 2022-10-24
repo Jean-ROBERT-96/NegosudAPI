@@ -36,11 +36,12 @@ namespace NegosudAPI.Data.Repository
 
         public async Task<Family?> PutFamily(int id, Family family)
         {
-            if (family.Id != null)
+            //TODO : Vérifier si l'item existe.
+            /*if (family.Id != null)
                 return null;
 
             if (await _context.families.FindAsync(id) == null)
-                return null;
+                return null;*/
 
             _context.Entry(family).State = EntityState.Modified;
             await _context.SaveChangesAsync();

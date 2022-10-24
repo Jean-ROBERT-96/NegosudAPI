@@ -40,13 +40,13 @@ namespace NegosudAPI.Controllers
             return Ok(await _repository.PostFamily(family));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Family>> Put(int id, Family family)
         {
             return Ok(await _repository.PutFamily(id, family));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Family>> Delete(int id)
         {
             return Ok(await _repository.DeleteFamily(id));

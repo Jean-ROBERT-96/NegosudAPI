@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using MySql.EntityFrameworkCore.Extensions;
@@ -15,7 +16,11 @@ namespace NegosudAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<DataContext>(opt => opt.UseMySQL(builder.Configuration.GetConnectionString("DBConnexion")));
+            builder.Services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseMySQL(builder.Configuration.GetConnectionString("DBConnexion"));
+                opt.EnableSensitiveDataLogging();
+            }); 
             builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
             builder.Services.AddTransient<IFamilyRepository, FamilyRepository>();
             builder.Services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
@@ -26,6 +31,11 @@ namespace NegosudAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddControllers(options =>
+            {
+                options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+            });
 
             var app = builder.Build();
 

@@ -24,8 +24,6 @@ namespace NegosudAPI.Data
         public DbSet<Bill> bills { get; set; }
         public DbSet<PurchaseOrder> purchaseOrders { get; set; }
         //Relation
-        public DbSet<Content> contents { get; set; }
         public DbSet<Contents> contents2 { get; set; }
-        public DbSet<Manage> manages { get; set; }
     }
 }

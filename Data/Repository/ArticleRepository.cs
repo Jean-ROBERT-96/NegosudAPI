@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NegosudAPI.Models.ArticleFolder;
 
 namespace NegosudAPI.Data.Repository
@@ -36,11 +37,12 @@ namespace NegosudAPI.Data.Repository
 
         public async Task<Article?> PutArticle(int id, Article article)
         {
-            if (article.Id != null)
+            //TODO : Vérifier si l'item existe.
+            /*if (article.Id != null)
                 return null;
-
-            if(await _context.articles.FindAsync(id) == null)
-                return null;
+            var result = await _context.articles.FindAsync(id);
+            if (result == null)
+                return null;*/
 
             _context.Entry(article).State = EntityState.Modified;
             await _context.SaveChangesAsync();

@@ -21,7 +21,5 @@ namespace NegosudAPI.Models.ArticleFolder
         public int Quantity { get; set; }
         [Column("id_family")]
         public int IdFamily { get; set; }
-        [ForeignKey("IdFamily")]
-        public Family Family { get; set; }
     }
 }

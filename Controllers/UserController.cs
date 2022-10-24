@@ -16,7 +16,7 @@ namespace NegosudAPI.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("{search}")]
         public async Task<ActionResult<User>> Get(string search)
         {
             return Ok(await _repository.GetUser(search));

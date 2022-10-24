@@ -10,9 +10,11 @@ namespace NegosudAPI.Models.OrderFolder
         public int Id { get; set; }
         [Column("date")]
         public string Date { get; set; }
+        [Column("quantity")]
+        public int Quantity { get; set; }
         [Column("id_vendor")]
         public int IdVendor { get; set; }
-        [ForeignKey("IdVendor")]
-        public Vendor Vendor { get; set; }
+        [Column("id_article")]
+        public int IdArticle { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\inetpub\wwwroot\negoapi</_PublishTargetUrl>
+    <History>True|2022-10-19T12:23:23.3766363Z;True|2022-10-19T13:45:26.8818838+02:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

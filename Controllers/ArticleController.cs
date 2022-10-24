@@ -40,13 +40,13 @@ namespace NegosudAPI.Controllers
             return CreatedAtAction("Post", await _repository.PostArticle(article));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Article>> Put(int id, Article article)
         {
             return Ok(await _repository.PutArticle(id, article));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Article>> Delete(int id)
         {
             return Ok(await _repository.DeleteArticle(id));
