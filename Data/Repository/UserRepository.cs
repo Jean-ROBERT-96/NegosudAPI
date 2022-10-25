@@ -6,7 +6,7 @@ namespace NegosudAPI.Data.Repository
 {
     public class UserRepository : IUserRepository
     {
-        DataContext _context;
+        private readonly DataContext _context;
 
         public UserRepository(DataContext context)
         {

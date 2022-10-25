@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Design;
 using MySql.EntityFrameworkCore.Extensions;
 using NegosudAPI.Data;
 using NegosudAPI.Data.Repository;
+using NegosudAPI.Models.ArticleFolder;
+using NegosudAPI.Models.EntityFolder;
+using System.Configuration;
 
 namespace NegosudAPI
 {
@@ -19,23 +22,17 @@ namespace NegosudAPI
             builder.Services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseMySQL(builder.Configuration.GetConnectionString("DBConnexion"));
-                opt.EnableSensitiveDataLogging();
             }); 
-            builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
-            builder.Services.AddTransient<IFamilyRepository, FamilyRepository>();
+            builder.Services.AddTransient<IDataRepository<Article>, ArticleRepository>();
+            builder.Services.AddTransient<IDataRepository<Family>, FamilyRepository>();
             builder.Services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
-            builder.Services.AddTransient<IClientRepository, ClientRepository>();
-            builder.Services.AddTransient<IVendorRepository, VendorRepository>();
+            builder.Services.AddTransient<IDataRepository<Client>, ClientRepository>();
+            builder.Services.AddTransient<IDataRepository<Vendor>, VendorRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            builder.Services.AddControllers(options =>
-            {
-                options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
-            });
 
             var app = builder.Build();
 

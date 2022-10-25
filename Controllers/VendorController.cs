@@ -9,9 +9,9 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class VendorController : ControllerBase
     {
-        IVendorRepository _repository;
+        private readonly IDataRepository<Vendor> _repository;
 
-        public VendorController(IVendorRepository repository)
+        public VendorController(IDataRepository<Vendor> repository)
         {
             _repository = repository;
         }
@@ -19,37 +19,37 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Vendor>>> Get()
         {
-            return Ok(await _repository.GetAllVendor());
+            return Ok(await _repository.Get());
         }
 
         [HttpGet("{search}")]
         public async Task<ActionResult<List<Vendor>>> Get(string search)
         {
-            return Ok(await _repository.GetVendor(search));
+            return Ok(await _repository.Get(search));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<List<Vendor>>> Get(int id)
         {
-            return Ok(await _repository.GetVendorById(id));
+            return Ok(await _repository.Get(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Vendor>> Post(Vendor vendor)
         {
-            return Ok(await _repository.PostVendor(vendor));
+            return CreatedAtAction("Post" ,await _repository.Post(vendor));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Vendor>> Put(int id, Vendor vendor)
         {
-            return Ok(await _repository.PutVendor(id, vendor));
+            return Ok(await _repository.Put(id, vendor));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Vendor>> Delete(int id)
         {
-            return Ok(await _repository.DeleteVendor(id));
+            return Ok(await _repository.Delete(id));
         }
     }
 }

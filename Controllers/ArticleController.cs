@@ -9,9 +9,9 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
-        IArticleRepository _repository;
+        private readonly IDataRepository<Article> _repository;
 
-        public ArticleController(IArticleRepository repository)
+        public ArticleController(IDataRepository<Article> repository)
         {
             _repository = repository;
         }
@@ -19,37 +19,37 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Article>>> Get()
         {
-            return Ok(await _repository.GetAllArticles());
+            return Ok(await _repository.Get());
         }
 
         [HttpGet("{search}")]
         public async Task<ActionResult<List<Article>>> Get(string search)
         {
-            return Ok(await _repository.GetArticle(search));
+            return Ok(await _repository.Get(search));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Article>> Get(int id)
         {
-            return Ok(await _repository.GetArticleById(id));
+            return Ok(await _repository.Get(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Article>> Post(Article article)
         {
-            return CreatedAtAction("Post", await _repository.PostArticle(article));
+            return CreatedAtAction("Post", await _repository.Post(article));
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<Article>> Put(int id, Article article)
         {
-            return Ok(await _repository.PutArticle(id, article));
+            return Ok(await _repository.Put(id, article));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Article>> Delete(int id)
         {
-            return Ok(await _repository.DeleteArticle(id));
+            return Ok(await _repository.Delete(id));
         }
     }
 }

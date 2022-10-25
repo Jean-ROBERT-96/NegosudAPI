@@ -9,9 +9,9 @@ namespace NegosudAPI.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        IClientRepository _repository;
+        private readonly IDataRepository<Client> _repository;
 
-        public ClientController(IClientRepository repository)
+        public ClientController(IDataRepository<Client> repository)
         {
             _repository = repository;
         }
@@ -19,37 +19,37 @@ namespace NegosudAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Client>>> Get()
         {
-            return Ok(await _repository.GetAllClient());
+            return Ok(await _repository.Get());
         }
 
         [HttpGet("{search}")]
         public async Task<ActionResult<List<Client>>> Get(string search)
         {
-            return Ok(await _repository.GetClient(search));
+            return Ok(await _repository.Get(search));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Client>> Get(int id)
         {
-            return Ok(await _repository.GetClientById(id));
+            return Ok(await _repository.Get(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Client>> Post(Client client)
         {
-            return Ok(await _repository.PostClient(client));
+            return CreatedAtAction("Post", await _repository.Post(client));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Client>> Put(int id, Client client)
         {
-            return Ok(await _repository.PutClient(id, client));
+            return Ok(await _repository.Put(id, client));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Client>> Delete(int id)
         {
-            return Ok(await _repository.DeleteClient(id));
+            return Ok(await _repository.Delete(id));
         }
     }
 }

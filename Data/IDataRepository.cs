@@ -9,44 +9,14 @@ namespace NegosudAPI.Data
         Task<User?> GetUser(string mail);
     }
 
-    public interface IClientRepository
+    public interface IDataRepository<T>
     {
-        Task<List<Client>> GetAllClient();
-        Task<List<Client?>> GetClient(string name);
-        Task<Client?> GetClientById(int id);
-        Task<Client> PostClient(Client client);
-        Task<Client?> PutClient(int id, Client client);
-        Task<Client?> DeleteClient(int id);
-    }
-
-    public interface IVendorRepository
-    {
-        Task<List<Vendor>> GetAllVendor();
-        Task<List<Vendor?>> GetVendor(string name);
-        Task<Vendor?> GetVendorById(int id);
-        Task<Vendor> PostVendor(Vendor vendor);
-        Task<Vendor?> PutVendor(int id, Vendor vendor);
-        Task<Vendor?> DeleteVendor(int id);
-    }
-
-    public interface IArticleRepository
-    {
-        Task<List<Article>> GetAllArticles();
-        Task<List<Article?>> GetArticle(string name);
-        Task<Article?> GetArticleById(int id);
-        Task<Article> PostArticle(Article article);
-        Task<Article?> PutArticle(int id, Article article);
-        Task<Article?> DeleteArticle(int id);
-    }
-
-    public interface IFamilyRepository
-    {
-        Task<List<Family>> GetAllFamilies();
-        Task<List<Family?>> GetFamily(string name);
-        Task<Family?> GetFamilyById(int id);
-        Task<Family> PostFamily(Family family);
-        Task<Family?> PutFamily(int id, Family family);
-        Task<Family?> DeleteFamily(int id);
+        Task<List<T>> Get();
+        Task<List<T>> Get(string name);
+        Task<T?> Get(int id);
+        Task<T> Post(T objects);
+        Task<T?> Put(int id, T objects);
+        Task<T?> Delete(int id);
     }
 
     public interface IPurchaseOrderRepository

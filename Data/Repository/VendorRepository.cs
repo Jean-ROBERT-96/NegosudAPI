@@ -3,43 +3,41 @@ using NegosudAPI.Models.EntityFolder;
 
 namespace NegosudAPI.Data.Repository
 {
-    public class VendorRepository : IVendorRepository
+    public class VendorRepository : IDataRepository<Vendor>
     {
-        DataContext _context;
+        private readonly DataContext _context;
 
         public VendorRepository(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Vendor>> GetAllVendor()
+        public async Task<List<Vendor>> Get()
         {
             return await _context.vendor.ToListAsync();
         }
 
-        public async Task<List<Vendor?>> GetVendor(string name)
+        public async Task<List<Vendor>> Get(string name)
         {
             return await _context.vendor.Where(a => a.CompagnyName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public async Task<Vendor?> GetVendorById(int id)
+        public async Task<Vendor?> Get(int id)
         {
-            return await _context.vendor.FindAsync(id);
+            return await _context.vendor.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Vendor> PostVendor(Vendor vendor)
+        public async Task<Vendor> Post(Vendor vendor)
         {
             _context.vendor.Add(vendor);
             await _context.SaveChangesAsync();
             return vendor;
         }
 
-        public async Task<Vendor?> PutVendor(int id, Vendor vendor)
+        public async Task<Vendor?> Put(int id, Vendor vendor)
         {
-            if (vendor.Id != null)
-                return null;
-
-            if (await _context.vendor.FindAsync(id) == null)
+            var result = await _context.vendor.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            if(result == null)
                 return null;
 
             _context.Entry(vendor).State = EntityState.Modified;
@@ -48,9 +46,9 @@ namespace NegosudAPI.Data.Repository
             return vendor;
         }
 
-        public async Task<Vendor?> DeleteVendor(int id)
+        public async Task<Vendor?> Delete(int id)
         {
-            var result = await _context.vendor.FindAsync(id);
+            var result = await _context.vendor.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
             if (result == null)
                 return null;
 
